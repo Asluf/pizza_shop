@@ -1,5 +1,9 @@
 export interface Pizza {
-    // _id: string;
-    // email:string;
-    // username: string;
+    pizzaId: string;
+    name: string;
+    crust: string;
+    sauce: string;
+    cheese: string;
+    toppings: string;
+    price: number;
 }

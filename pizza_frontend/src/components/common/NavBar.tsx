@@ -2,7 +2,8 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTokenContext } from '../../contexts/TokenContext';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faPizzaSlice, faShoppingCart, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -81,24 +82,34 @@ const Navbar: React.FC = () => {
               Login
             </Link>
           </>
-        ) : (location.pathname === '/dashboard' || location.pathname === '/customize' ) ? (
+        ) : (location.pathname === '/dashboard' || location.pathname === '/customize' || location.pathname === '/cart') ? (
           <>
             <Link
               to="/dashboard"
               className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
+              <FontAwesomeIcon icon={faHome} />
               Dashboard
             </Link>
             <Link
               to="/customize"
               className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
+              <FontAwesomeIcon icon={faPizzaSlice} />
               Customize
+            </Link>
+            <Link
+              to="/cart"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
+            >
+              <FontAwesomeIcon icon={faShoppingCart} />
+              Cart
             </Link>
             <button
               onClick={handleLogout}
               className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
+              <FontAwesomeIcon icon={faSignOutAlt} />
               Logout
             </button>
           </>

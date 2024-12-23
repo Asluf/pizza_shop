@@ -9,6 +9,7 @@ import { TokenProvider } from "./contexts/TokenContext";
 import 'react-toastify/dist/ReactToastify.css';
 import { PizzaProvider } from "./contexts/PizzaContext";
 import Customize from "./components/user/Customize";
+import Cart from "./components/user/Cart";
 
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
               <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/customize" element={<Customize />} />
+              <Route path="/cart" element={<Cart />} />
             </Routes>
           </Router>
       </PizzaProvider>

@@ -1,23 +1,22 @@
 package com.aslufcode.pizza_backend.models;
 
-import java.util.List;
-
 public class Pizza {
     private String name;
     private String crust;
     private String sauce;
-    private List<String> toppings;
+    private String cheese; // New attribute
+    private String toppings; // Now a comma-separated string
     private double price;
 
-    public Pizza(String name, String crust, String sauce, List<String> toppings, double price) {
+    public Pizza(String name, String crust, String sauce, String cheese, String toppings, double price) {
         this.name = name;
         this.crust = crust;
         this.sauce = sauce;
+        this.cheese = cheese;
         this.toppings = toppings;
         this.price = price;
     }
 
-    // Getters and Setters
     public String getName() {
         return name;
     }
@@ -42,11 +41,19 @@ public class Pizza {
         this.sauce = sauce;
     }
 
-    public List<String> getToppings() {
+    public String getCheese() {
+        return cheese;
+    }
+
+    public void setCheese(String cheese) {
+        this.cheese = cheese;
+    }
+
+    public String getToppings() {
         return toppings;
     }
 
-    public void setToppings(List<String> toppings) {
+    public void setToppings(String toppings) {
         this.toppings = toppings;
     }
 

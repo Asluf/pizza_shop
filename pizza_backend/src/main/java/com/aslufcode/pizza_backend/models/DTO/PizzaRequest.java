@@ -6,6 +6,7 @@ public class PizzaRequest {
     private String name;
     private String crust;
     private String sauce;
+    private String cheese;
     private List<String> toppings;
 
     public String getName() {
@@ -30,6 +31,14 @@ public class PizzaRequest {
 
     public void setSauce(String sauce) {
         this.sauce = sauce;
+    }
+
+    public String getCheese() {
+        return cheese;
+    }
+
+    public void setCheese(String cheese) {
+        this.cheese = cheese;
     }
 
     public List<String> getToppings() {

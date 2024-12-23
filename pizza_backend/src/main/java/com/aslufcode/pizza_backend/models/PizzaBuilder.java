@@ -1,13 +1,11 @@
 package com.aslufcode.pizza_backend.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PizzaBuilder {
     private String name;
     private String crust;
     private String sauce;
-    private List<String> toppings = new ArrayList<>();
+    private String cheese;
+    private StringBuilder toppings = new StringBuilder();
     private double basePrice = 1000.0;
 
     public PizzaBuilder setCrust(String crust) {
@@ -58,8 +56,32 @@ public class PizzaBuilder {
         return this;
     }
 
+    public PizzaBuilder setCheese(String cheese) {
+        this.cheese = cheese;
+        switch (cheese.toLowerCase()) {
+            case "mozzarella":
+                this.basePrice += 150.0;
+                break;
+            case "cheddar":
+                this.basePrice += 200.0;
+                break;
+            case "parmesan":
+                this.basePrice += 250.0;
+                break;
+            case "gouda":
+                this.basePrice += 300.0;
+                break;
+            default:
+                break;
+        }
+        return this;
+    }
+
     public PizzaBuilder addTopping(String topping) {
-        this.toppings.add(topping);
+        if (this.toppings.length() > 0) {
+            this.toppings.append(", ");
+        }
+        this.toppings.append(topping);
         this.basePrice += 100.0;
         return this;
     }
@@ -71,13 +93,10 @@ public class PizzaBuilder {
                 generatedName.append(this.crust).append(" ");
             if (this.sauce != null)
                 generatedName.append(this.sauce).append(" ");
-            if (!this.toppings.isEmpty()) {
-                generatedName.append("with ");
-                for (String topping : this.toppings) {
-                    generatedName.append(topping).append(", ");
-                }
-                // Remove the trailing comma and space
-                generatedName.setLength(generatedName.length() - 2);
+            if (this.cheese != null)
+                generatedName.append(this.cheese).append(" ");
+            if (this.toppings.length() > 0) {
+                generatedName.append("with ").append(this.toppings);
             } else {
                 generatedName.append("Plain");
             }
@@ -91,9 +110,8 @@ public class PizzaBuilder {
         return this;
     }
 
-    // Build the final Pizza object
     public Pizza build() {
         setNameAutomatically();
-        return new Pizza(name, crust, sauce, toppings, basePrice);
+        return new Pizza(name, crust, sauce, cheese, toppings.toString(), basePrice);
     }
 }
