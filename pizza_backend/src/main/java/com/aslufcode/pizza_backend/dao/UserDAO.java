@@ -1,7 +1,7 @@
 package com.aslufcode.pizza_backend.dao;
 
-import com.aslufcode.pizza_backend.models.RegisterRequest;
 import com.aslufcode.pizza_backend.models.User;
+import com.aslufcode.pizza_backend.models.DTO.RegisterRequest;
 import com.aslufcode.pizza_backend.utils.DBConnection;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.aslufcode.pizza_backend.models;
+package com.aslufcode.pizza_backend.models.DTO;
 
 public class RegisterRequest {
     private String name;

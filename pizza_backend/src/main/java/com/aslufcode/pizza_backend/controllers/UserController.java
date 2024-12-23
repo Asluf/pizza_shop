@@ -2,9 +2,10 @@ package com.aslufcode.pizza_backend.controllers;
 
 import com.aslufcode.pizza_backend.dao.UserDAO;
 import com.aslufcode.pizza_backend.models.ApiResponse;
-import com.aslufcode.pizza_backend.models.LoginRequest;
-import com.aslufcode.pizza_backend.models.RegisterRequest;
 import com.aslufcode.pizza_backend.models.User;
+import com.aslufcode.pizza_backend.models.DTO.LoginRequest;
+import com.aslufcode.pizza_backend.models.DTO.RegisterRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

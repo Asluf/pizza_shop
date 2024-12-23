@@ -1,13 +1,11 @@
 import React from 'react';
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTokenContext } from '../../contexts/TokenContext';
-interface NavbarProps {
-  path: string;
-  onChatButtonClick?: () => void;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ path, onChatButtonClick }) => {
+
+const Navbar: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { setUserEmail, setUserId } = useTokenContext();
 
@@ -35,65 +33,71 @@ const Navbar: React.FC<NavbarProps> = ({ path, onChatButtonClick }) => {
   };
 
   return (
-    <div className="flex w-[100%] px-4  items-center justify-between h-[60px] bg-brown-300">
-      <div className="text-2xl text-brown-900 font-bold">Pizza Palette</div>
+    <div className="flex w-[100%] px-4 items-center justify-between h-[60px] bg-brown-600">
+      <div className="text-2xl text-brown-100 font-bold">Pizza Palette</div>
       <div className="flex justify-between gap-2">
-        {path === '/' ? (
+        {location.pathname === '/' ? (
           <>
             <Link
               to="/login"
-              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Signup
             </Link>
           </>
-        ) : path === '/login' ? (
+        ) : location.pathname === '/login' ? (
           <>
             <Link
               to="/"
-              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Home
             </Link>
             <Link
               to="/signup"
-              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Signup
             </Link>
           </>
-        ) : path === '/signup' ? (
+        ) : location.pathname === '/signup' ? (
           <>
             <Link
               to="/"
-              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Home
             </Link>
             <Link
               to="/login"
-              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Login
             </Link>
           </>
-        ) : path === '/dashboard' ? (
+        ) : (location.pathname === '/dashboard' || location.pathname === '/customize' ) ? (
           <>
-            <button
-              onClick={onChatButtonClick}
-              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+            <Link
+              to="/dashboard"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
-              Chat
-            </button>
+              Dashboard
+            </Link>
+            <Link
+              to="/customize"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
+            >
+              Customize
+            </Link>
             <button
               onClick={handleLogout}
-              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-900 text-white hover:bg-brown-600"
+              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               Logout
             </button>

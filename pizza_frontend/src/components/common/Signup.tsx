@@ -57,9 +57,9 @@ const Signup: React.FC = () => {
   return (
     <div className="w-[100%] h-[100vh]">
       {/* Navbar */}
-      <Navbar path={location.pathname} />
+      <Navbar />
       <div className="w-[100%] h-[92vh] flex justify-center items-center">
-        <div className="bg-brown-300 bg-opacity-50 w-[450px] h-[400px] rounded-xl px-10 py-5 shadow-xl flex flex-col gap-4 ">
+        <div className="bg-brown-300 bg-opacity-50 w-[450px] rounded-xl px-10 py-7 shadow-xl flex flex-col gap-4 ">
           <h2 className="font-bold text-2xl flex justify-center items-center">Sign-up</h2>
           <form onSubmit={handleSignup}>
             <div className="flex w-[100%] gap-2 mt-4 mb-6 items-center">

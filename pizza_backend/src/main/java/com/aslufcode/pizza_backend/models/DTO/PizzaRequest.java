@@ -1,23 +1,13 @@
-package com.aslufcode.pizza_backend.models;
+package com.aslufcode.pizza_backend.models.DTO;
 
 import java.util.List;
 
-public class Pizza {
+public class PizzaRequest {
     private String name;
     private String crust;
     private String sauce;
     private List<String> toppings;
-    private double price;
 
-    public Pizza(String name, String crust, String sauce, List<String> toppings, double price) {
-        this.name = name;
-        this.crust = crust;
-        this.sauce = sauce;
-        this.toppings = toppings;
-        this.price = price;
-    }
-
-    // Getters and Setters
     public String getName() {
         return name;
     }
@@ -48,13 +38,5 @@ public class Pizza {
 
     public void setToppings(List<String> toppings) {
         this.toppings = toppings;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 }
