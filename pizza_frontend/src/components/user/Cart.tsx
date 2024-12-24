@@ -5,7 +5,8 @@ import { useTokenContext } from '../../contexts/TokenContext';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faPlus, faMinus, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import Checkout from './Checkout';
 
 interface CartItem {
     pizzaName: string;
@@ -24,6 +25,7 @@ const Cart: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [showCheckout, setShowCheckout] = useState(false);
 
     useEffect(() => {
         if (!userEmail || userEmail === '') {
@@ -38,7 +40,6 @@ const Cart: React.FC = () => {
         setError('');
         try {
             const response = await axios.get(`http://localhost:8080/api/cart/get/${userEmail}`);
-            console.log('API Response:', response.data); // Debugging
             setCartItems(Array.isArray(response.data.data) ? response.data.data : []);
         } catch (error) {
             setError('Error fetching cart items.');
@@ -81,8 +82,8 @@ const Cart: React.FC = () => {
         }
     };
 
-    const handleCheckout = () => {
-        navigate('/checkout');
+    const calculateTotalAmount = () => {
+        return cartItems.reduce((total, item) => total + item.totalPrice, 0);
     };
 
     return (
@@ -92,14 +93,19 @@ const Cart: React.FC = () => {
                 <div className="mt-5 w-[60vw] min-h-[30vh] rounded-xl px-10 py-5 shadow-xl flex flex-col gap-4">
                     <div className="flex justify-end">
                         <button
-                            onClick={handleCheckout}
+                            onClick={() => setShowCheckout(true)}
                             className="bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded"
                         >
-                            Checkout
+                            Checkout (Total: LKR {calculateTotalAmount()})
                         </button>
                     </div>
                     {loading && <p className="text-blue-500">Loading cart items...</p>}
-                    {error && <p className="text-red-500">{error}</p>}
+                    {cartItems.length === 0 && !loading && (
+                        <div className="flex flex-col items-center justify-center text-center text-gray-500">
+                            <FontAwesomeIcon icon={faExclamationTriangle} size="4x" className="mb-4" />
+                            <p className="text-lg">Your cart is empty.</p>
+                        </div>
+                    )}
                     <div className="w-full p-5 grid grid-cols-2 gap-4">
                         {Array.isArray(cartItems) && cartItems.map((item: CartItem) => (
                             <div key={item.pizzaName} className="border border-brown-800 rounded-lg shadow-lg p-5">
@@ -109,33 +115,41 @@ const Cart: React.FC = () => {
                                 <p>Cheese: {item.cheese}</p>
                                 <p>Toppings: {item.toppings}</p>
                                 <p className="text-green-600 font-bold">Price: LKR {item.totalPrice}</p>
-                                <div className="flex items-center gap-2">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleQuantityChange(item.pizzaName, item.quantity - 1)}
+                                            className="bg-gray-300 hover:bg-gray-400 text-black px-2 py-1 rounded"
+                                        >
+                                            <FontAwesomeIcon icon={faMinus} />
+                                        </button>
+                                        <p>Quantity: {item.quantity}</p>
+                                        <button
+                                            onClick={() => handleQuantityChange(item.pizzaName, item.quantity + 1)}
+                                            className="bg-gray-300 hover:bg-gray-400 text-black px-2 py-1 rounded"
+                                        >
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </button>
+                                    </div>
                                     <button
-                                        onClick={() => handleQuantityChange(item.pizzaName, item.quantity - 1)}
-                                        className="bg-gray-300 hover:bg-gray-400 text-black px-2 py-1 rounded"
+                                        onClick={() => handleRemoveItem(item.pizzaName)}
+                                        className="bg-red-700 hover:bg-red-500 text-white p-3 rounded mt-4 flex items-center gap-2"
                                     >
-                                        <FontAwesomeIcon icon={faMinus} />
-                                    </button>
-                                    <p>Quantity: {item.quantity}</p>
-                                    <button
-                                        onClick={() => handleQuantityChange(item.pizzaName, item.quantity + 1)}
-                                        className="bg-gray-300 hover:bg-gray-400 text-black px-2 py-1 rounded"
-                                    >
-                                        <FontAwesomeIcon icon={faPlus} />
+                                        <FontAwesomeIcon icon={faTrashAlt} />
                                     </button>
                                 </div>
-                                <button
-                                    onClick={() => handleRemoveItem(item.pizzaName)}
-                                    className="bg-red-700 hover:bg-red-500 text-white px-4 py-2 rounded mt-4 flex items-center gap-2"
-                                >
-                                    <FontAwesomeIcon icon={faTrashAlt} />
-                                    Remove from Cart
-                                </button>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
+            {showCheckout && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white rounded-lg p-5 w-[50vw]">
+                        <Checkout cartItems={cartItems} totalAmount={calculateTotalAmount()} onClose={() => setShowCheckout(false)} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -14,7 +14,7 @@ public class CartDao {
         try (Connection conn = DBConnection.getConnection()) {
             String query = "INSERT INTO Cart (userEmail, pizzaName, crust, sauce, cheese, toppings, price, totalPrice, quantity) "
                     +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, cart.getUserEmail());
             stmt.setString(2, cart.getPizzaName());
@@ -23,8 +23,8 @@ public class CartDao {
             stmt.setString(5, cart.getCheese());
             stmt.setString(6, cart.getToppings());
             stmt.setDouble(7, cart.getPrice());
-            stmt.setDouble(7, cart.getTotalPrice());
-            stmt.setInt(8, cart.getQuantity());
+            stmt.setDouble(8, cart.getTotalPrice());
+            stmt.setInt(9, cart.getQuantity());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

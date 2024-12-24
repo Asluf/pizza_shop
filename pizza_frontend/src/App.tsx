@@ -10,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PizzaProvider } from "./contexts/PizzaContext";
 import Customize from "./components/user/Customize";
 import Cart from "./components/user/Cart";
+import Profile from "./components/user/Profile";
+import Favorite from "./components/user/Favorite";
+import Order from "./components/user/Order";
 
 
 const App: React.FC = () => {
@@ -24,6 +27,9 @@ const App: React.FC = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/customize" element={<Customize />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/favorite" element={<Favorite />} />
+              <Route path="/orders" element={<Order />} />
             </Routes>
           </Router>
       </PizzaProvider>

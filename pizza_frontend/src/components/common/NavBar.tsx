@@ -1,38 +1,11 @@
 import React from 'react';
-import Swal from 'sweetalert2';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTokenContext } from '../../contexts/TokenContext';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPizzaSlice, faShoppingCart, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHome, faPizzaSlice, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { setUserEmail, setUserId } = useTokenContext();
-
-  const handleLogout = async () => {
-    const { isConfirmed } = await Swal.fire({
-      title: 'Logout Confirmation',
-      text: 'Are you sure you want to logout?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!'
-    });
-
-    if (isConfirmed) {
-      try {
-        setUserEmail('');
-        setUserId('');
-        localStorage.clear();
-        navigate('/login');
-      } catch (error) {
-        console.error('Logout failed:', error);
-      }
-    }
-  };
-
+  
   return (
     <div className="flex w-[100%] px-4 items-center justify-between h-[60px] bg-brown-600">
       <div className="text-2xl text-brown-100 font-bold">Pizza Palette</div>
@@ -82,7 +55,7 @@ const Navbar: React.FC = () => {
               Login
             </Link>
           </>
-        ) : (location.pathname === '/dashboard' || location.pathname === '/customize' || location.pathname === '/cart') ? (
+        ) : (location.pathname === '/dashboard' || location.pathname === '/customize' || location.pathname === '/cart' || location.pathname === '/favorite' || location.pathname === '/profile' || location.pathname === '/orders') ? (
           <>
             <Link
               to="/dashboard"
@@ -99,19 +72,26 @@ const Navbar: React.FC = () => {
               Customize
             </Link>
             <Link
+              to="/favorite"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
+            >
+              <FontAwesomeIcon icon={faHeart} />
+              Favorite
+            </Link>
+            <Link
               to="/cart"
               className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
               <FontAwesomeIcon icon={faShoppingCart} />
               Cart
             </Link>
-            <button
-              onClick={handleLogout}
-              className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
+            <Link
+              to="/profile"
+              className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brown-800 text-white hover:bg-brown-400"
             >
-              <FontAwesomeIcon icon={faSignOutAlt} />
-              Logout
-            </button>
+              <FontAwesomeIcon icon={faUser} />
+              Profile
+            </Link>
           </>
         ) : null}
 

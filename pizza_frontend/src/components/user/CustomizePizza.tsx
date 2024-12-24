@@ -66,7 +66,7 @@ const CustomizePizza = () => {
                 cancelButtonText: 'Close'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    await handleSubmit();
+                    await handleSubmit(response.data.price);
                 }
             });
         } catch (err) {
@@ -77,10 +77,10 @@ const CustomizePizza = () => {
         }
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (pr: number) => {
         setLoading(true);
         setError('');
-        if (!name || !crust || !sauce || !cheese || price === 0) {
+        if (!name || !crust || !sauce || !cheese) {
             Swal.fire('Error', 'Please fill out all required fields: name, crust, cheese, and sauce.', 'error');
             return;
         }
@@ -92,16 +92,18 @@ const CustomizePizza = () => {
             sauce: sauce,
             cheese: cheese,
             toppings: toppings.join(', '),
-            price: price,
+            price: pr,
             quantity: 1,
         };
+        console.log({ dd: cartItem })
 
         try {
             const response = await axios.post('http://localhost:8080/api/cart/add', cartItem);
             if (response.data) {
+                console.log({ res2: response.data });
                 Swal.fire({
                     title: 'Success',
-                    html: `<p>Pizza <strong>${name}</strong> created successfully!</p><p>Price: LKR ${response.data.price}</p>`,
+                    html: `<p>Pizza <strong>${name}</strong> created successfully!</p><p>Price: LKR ${cartItem.price}</p>`,
                     icon: 'success',
                     showCancelButton: true,
                     confirmButtonText: 'Go to Cart',
@@ -200,11 +202,11 @@ const CustomizePizza = () => {
                         Reset
                     </button>
                     <button onClick={handleCheckPrice} type="button" className="bg-blue-700 hover:bg-blue-500 text-white px-4 py-2 rounded">
-                        Check Price
+                        Check Price & Create
                     </button>
-                    <button onClick={handleSubmit} type="button" className="bg-yellow-700 hover:bg-yellow-500 text-white px-4 py-2 rounded">
+                    {/* <button onClick={() => handleSubmit()} type="button" className="bg-yellow-700 hover:bg-yellow-500 text-white px-4 py-2 rounded">
                         Create Pizza
-                    </button>
+                    </button> */}
 
                     {loading && <p className="text-blue-500">Creating your pizza...</p>}
                     {error && <p className="text-red-500">{error}</p>}

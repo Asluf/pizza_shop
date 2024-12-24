@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aslufcode.pizza_backend.dao.CartDao;
@@ -33,15 +32,13 @@ public class CartController {
     @GetMapping("/get/{userEmail}")
     public ResponseEntity<ApiResponse> getCartByUserEmail(@PathVariable String userEmail) {
         List<Cart> cartItems = cartDAO.getCartByUserEmail(userEmail);
-        if (cartItems != null && !cartItems.isEmpty()) {
-            return ResponseEntity.ok(new ApiResponse(true, "Cart items retrieved successfully!", cartItems));
-        } else {
-            return ResponseEntity.status(404).body(new ApiResponse(false, "No cart items found for the user!"));
-        }
+        return ResponseEntity.ok(new ApiResponse(true, "Cart items retrieved successfully!", cartItems));
+
     }
 
     @PutMapping("/update/{userEmail}/{pizzaName}")
-    public ResponseEntity<ApiResponse> updateCartQuantity(@PathVariable String userEmail, @PathVariable String pizzaName, @RequestBody Cart cart) {
+    public ResponseEntity<ApiResponse> updateCartQuantity(@PathVariable String userEmail,
+            @PathVariable String pizzaName, @RequestBody Cart cart) {
         boolean updated = cartDAO.updateCartQuantity(userEmail, pizzaName, cart.getQuantity());
         if (updated) {
             return ResponseEntity.ok(new ApiResponse(true, "Quantity updated successfully!"));

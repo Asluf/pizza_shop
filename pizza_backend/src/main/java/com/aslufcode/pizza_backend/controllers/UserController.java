@@ -35,4 +35,14 @@ public class UserController {
             return ResponseEntity.status(401).body(new ApiResponse(false, "Invalid email or password!"));
         }
     }
+
+    @GetMapping("/get/{email}")
+    public ResponseEntity<ApiResponse> getUserByEmail(@PathVariable String email) {
+        User user = userDAO.getUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(new ApiResponse(true, "User retrieved successfully!", user));
+        } else {
+            return ResponseEntity.status(404).body(new ApiResponse(false, "User not found!"));
+        }
+    }
 }
