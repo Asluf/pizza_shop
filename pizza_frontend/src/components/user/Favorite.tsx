@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faShoppingCart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface FavoriteItem {
+    pizzaId: string;
     pizzaName: string;
     crust: string;
     sauce: string;
@@ -63,6 +64,7 @@ const Favorite: React.FC = () => {
     const addToCart = async (pizza: FavoriteItem) => {
         const cartItem = {
             userEmail: localStorage.getItem('userEmail'),
+            pizzaId: pizza.pizzaId,
             pizzaName: pizza.pizzaName,
             crust: pizza.crust,
             sauce: pizza.sauce,
@@ -99,8 +101,8 @@ const Favorite: React.FC = () => {
                         </div>
                     )}
                     <div className="w-full p-5 grid grid-cols-2 gap-4">
-                        {Array.isArray(favoriteItems) && favoriteItems.map((item: FavoriteItem) => (
-                            <div key={item.pizzaName} className="border border-brown-800 rounded-lg shadow-lg p-5">
+                        {Array.isArray(favoriteItems) && favoriteItems.map((item: FavoriteItem, index) => (
+                            <div key={index} className="border border-brown-800 rounded-lg shadow-lg p-5">
                                 <h2 className="text-lg font-bold">{item.pizzaName}</h2>
                                 <p>Crust: {item.crust}</p>
                                 <p>Sauce: {item.sauce}</p>

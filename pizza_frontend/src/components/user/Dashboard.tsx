@@ -45,6 +45,7 @@ const Dashboard: React.FC = () => {
   const addToCart = async (pizza: any, isOffer: boolean) => {
     const cartItem = {
       userEmail: localStorage.getItem('userEmail'),
+      pizzaId: pizza.pizzaId,
       pizzaName: pizza.name || 'Custom Pizza',
       crust: pizza.crust,
       sauce: pizza.sauce,
@@ -72,6 +73,7 @@ const Dashboard: React.FC = () => {
   const addToFavorites = async (pizza: any, isOffer: boolean) => {
     const favoriteItem = {
       userEmail: localStorage.getItem('userEmail'),
+      pizzaId: pizza.pizzaId,
       pizzaName: pizza.name,
       crust: pizza.crust,
       sauce: pizza.sauce,
@@ -111,7 +113,7 @@ const Dashboard: React.FC = () => {
 
       <div className="w-full p-5 grid grid-cols-4 gap-4">
         {offerPizzas.map((pizza: OfferPizza) => (
-          <div key={pizza.name} className="border border-brown-800 rounded-lg shadow-lg p-5">
+          <div key={pizza.pizzaId} className="border border-brown-800 rounded-lg shadow-lg p-5">
             <img src={pizza2} alt="Pizza" className="w-full h-40 object-contain rounded-md mb-4" />
             <h2 className="text-lg font-bold">{pizza.name}</h2>
             <p>Crust: {pizza.crust}</p>

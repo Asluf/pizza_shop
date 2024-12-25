@@ -12,6 +12,7 @@ public class Order {
     private double price;
     private int quantity;
     private OrderState state;
+    private boolean specialPackaging;
 
     public Order() {
         this.state = new PlacedState();
@@ -135,5 +136,13 @@ public class Order {
 
     public String getStatus() {
         return state.getStatus();
+    }
+
+    public boolean isSpecialPackaging() {
+        return specialPackaging;
+    }
+    
+    public void setSpecialPackaging(boolean specialPackaging) {
+        this.specialPackaging = specialPackaging;
     }
 }

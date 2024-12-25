@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 interface CartItem {
+    pizzaId?: string;
     pizzaName: string;
     crust: string;
     sauce: string;
@@ -24,6 +25,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalAmount, onClose }) 
     const [mobileNumber, setMobileNumber] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
+    const [specialPackaging, setSpecialPackaging] = useState(false);
     const navigate = useNavigate();
     const [cvv, setCvv] = useState('');
     const [errors, setErrors] = useState({
@@ -40,13 +42,15 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalAmount, onClose }) 
         const orderDetails = {
             userEmail: localStorage.getItem('userEmail'),
             mobile: mobileNumber,
+            pizzaId: firstItem.pizzaId ?? 0,
             pizzaName: firstItem.pizzaName,
             crust: firstItem.crust,
             sauce: firstItem.sauce,
             cheese: firstItem.cheese,
             toppings: firstItem.toppings,
             price: firstItem.totalPrice,
-            quantity: firstItem.quantity
+            quantity: firstItem.quantity,
+            specialPackaging: specialPackaging
         };
 
         try {
@@ -146,6 +150,18 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalAmount, onClose }) 
                 </div>
 
                 <form onSubmit={handlePayment} className="mt-4">
+                    <div className="mb-4 flex gap-2">
+                        <input
+                            type="checkbox"
+                            id="specialPackaging"
+                            name="specialPackaging"
+                            checked={specialPackaging}
+                            onChange={(e) => setSpecialPackaging(e.target.checked)}
+                        />
+                        <label className="block text-gray-700 text-sm font-bold" htmlFor="specialPackaging">
+                            Special Packaging
+                        </label>
+                    </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="mobileNumber">
                             Mobile Number

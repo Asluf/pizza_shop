@@ -18,13 +18,13 @@ public class PizzaDao {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 pizzas.add(new Pizza(
-                    rs.getString("name"),
-                    rs.getString("crust"),
-                    rs.getString("sauce"),
-                    rs.getString("cheese"),
-                    rs.getString("toppings"),
-                    rs.getDouble("price")
-                ));
+                        rs.getInt("pizzaId"),
+                        rs.getString("name"),
+                        rs.getString("crust"),
+                        rs.getString("sauce"),
+                        rs.getString("cheese"),
+                        rs.getString("toppings"),
+                        rs.getDouble("price")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

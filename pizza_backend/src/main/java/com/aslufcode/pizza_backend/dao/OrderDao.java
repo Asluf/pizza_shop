@@ -1,5 +1,8 @@
 package com.aslufcode.pizza_backend.dao;
 
+import com.aslufcode.pizza_backend.decorator.BaseOrder;
+import com.aslufcode.pizza_backend.decorator.OrderComponent;
+import com.aslufcode.pizza_backend.decorator.SpecialPackagingDecorator;
 import com.aslufcode.pizza_backend.models.Order;
 import com.aslufcode.pizza_backend.utils.DBConnection;
 
@@ -14,9 +17,14 @@ public class OrderDao {
 
     public boolean saveOrder(Order order) {
         try (Connection conn = DBConnection.getConnection()) {
-            String query = "INSERT INTO Orders (userEmail, mobile, pizzaName, crust, sauce, cheese, toppings, price, quantity, orderStatus, paymentStatus) "
+            OrderComponent orderComponent = new BaseOrder(order);
+            if (order.isSpecialPackaging()) {
+                orderComponent = new SpecialPackagingDecorator(orderComponent);
+            }
+
+            String query = "INSERT INTO Orders (userEmail, mobile, pizzaName, crust, sauce, cheese, toppings, price, quantity, orderStatus, paymentStatus, specialPackaging) "
                     +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, order.getUserEmail());
             stmt.setString(2, order.getMobile());
@@ -25,10 +33,12 @@ public class OrderDao {
             stmt.setString(5, order.getSauce());
             stmt.setString(6, order.getCheese());
             stmt.setString(7, order.getToppings());
-            stmt.setDouble(8, order.getPrice());
+            stmt.setDouble(8, orderComponent.calculatePrice());
             stmt.setInt(9, order.getQuantity());
             stmt.setString(10, order.getStatus());
             stmt.setString(11, "Paid");
+            stmt.setBoolean(12, order.isSpecialPackaging());
+
             boolean orderSaved = stmt.executeUpdate() > 0;
 
             if (orderSaved) {

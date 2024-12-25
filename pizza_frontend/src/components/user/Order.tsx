@@ -3,11 +3,11 @@ import Navbar from '../common/NavBar';
 import { useNavigate } from 'react-router-dom';
 import { useTokenContext } from '../../contexts/TokenContext';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 interface OrderItem {
+    pizzaId?: string;
     pizzaName: string;
     crust: string;
     sauce: string;
@@ -26,6 +26,7 @@ const Order: React.FC = () => {
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [updates, setUpdates] = useState<string>('');
 
     useEffect(() => {
         if (!userEmail || userEmail === '') {
@@ -34,6 +35,17 @@ const Order: React.FC = () => {
             fetchOrders();
         }
     }, [userEmail]);
+
+    useEffect(() => {
+        const ws = new WebSocket('ws://localhost:8080/order-status');
+
+        ws.onmessage = (event) => {
+            console.log('Order Status Update:', event.data);
+            setUpdates(event.data);
+        };
+
+        return () => ws.close();
+    }, []);
 
     const fetchOrders = async () => {
         setLoading(true);
@@ -64,7 +76,6 @@ const Order: React.FC = () => {
         }
     };
 
-
     return (
         <div className="w-[100%] h-[100vh]">
             <Navbar />
@@ -79,43 +90,27 @@ const Order: React.FC = () => {
                         </div>
                     )}
                     <div className="w-full p-5 grid grid-cols-2 gap-4">
-                        {Array.isArray(orderItems) && orderItems.map((item) => (
-                            <div key={item.pizzaName} className="rounded-lg shadow-2xl p-5 bg-brown-100">
+                        {Array.isArray(orderItems) && orderItems.map((item, index) => (
+                            <div key={index} className="rounded-lg shadow-2xl p-5 bg-brown-100">
                                 <h2 className="text-lg font-bold">{item.pizzaName}</h2>
                                 <p className="text-green-600 font-bold">Price: LKR {item.price}</p>
                                 <p>Quantity: {item.quantity}</p>
                                 <p>Status: {item.state.status}</p>
 
                                 <div className="flex items-center mt-4">
-                                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div
-                                        className={`h-2.5 rounded-full ${
-                                            getStatusIndex(item.state.status) >= 0 ? 'bg-brown-500' : ''
-                                        }`}
-                                        style={{ width: `${(getStatusIndex(item.state.status) + 1) * 25}%` }}
-                                    ></div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div
+                                            className={`h-2.5 rounded-full ${getStatusIndex(item.state.status) >= 0 ? 'bg-brown-500' : ''
+                                                }`}
+                                            style={{ width: `${(getStatusIndex(item.state.status) + 1) * 25}%` }}
+                                        ></div>
+                                    </div>
                                 </div>
-                                {/* <div className="flex justify-between w-full mt-2">
-                                    <span className={`text-xs ${getStatusIndex(item.state.status) >= 0 ? 'text-blue-500' : 'text-gray-400'}`}>
-                                        Placed
-                                    </span>
-                                    <span className={`text-xs ${getStatusIndex(item.state.status) >= 1 ? 'text-blue-500' : 'text-gray-400'}`}>
-                                        Preparing
-                                    </span>
-                                    <span className={`text-xs ${getStatusIndex(item.state.status) >= 2 ? 'text-blue-500' : 'text-gray-400'}`}>
-                                        Out for Delivery
-                                    </span>
-                                    <span className={`text-xs ${getStatusIndex(item.state.status) >= 3 ? 'text-blue-500' : 'text-gray-400'}`}>
-                                        Delivered
-                                    </span>
-                                </div> */}
-                            </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };

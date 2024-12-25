@@ -1,6 +1,7 @@
 package com.aslufcode.pizza_backend.models;
 
 public class Pizza {
+    private int pizzaId;
     private String name;
     private String crust;
     private String sauce;
@@ -8,13 +9,22 @@ public class Pizza {
     private String toppings; // Now a comma-separated string
     private double price;
 
-    public Pizza(String name, String crust, String sauce, String cheese, String toppings, double price) {
+    public Pizza(int pizzaId, String name, String crust, String sauce, String cheese, String toppings, double price) {
+        this.pizzaId = pizzaId;
         this.name = name;
         this.crust = crust;
         this.sauce = sauce;
         this.cheese = cheese;
         this.toppings = toppings;
         this.price = price;
+    }
+
+    public int getPizzaId() {
+        return pizzaId;
+    }
+
+    public void setPizzaId(int pizzaId) {
+        this.pizzaId = pizzaId;
     }
 
     public String getName() {
