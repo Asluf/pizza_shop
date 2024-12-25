@@ -3,7 +3,7 @@ import Navbar from '../common/NavBar';
 import { useNavigate } from 'react-router-dom';
 import { useTokenContext } from '../../contexts/TokenContext';
 import axios from 'axios';
-import { Pizza, OfferPizza } from '../../models/pizza';
+import { Pizza } from '../../models/pizza';
 import pizza2 from '../../assets/pizza2.png';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
   const { userEmail } = useTokenContext();
 
   const [pizzas, setPizzas] = useState<Pizza[]>([]);
-  const [offerPizzas, setOfferPizzas] = useState<OfferPizza[]>([]);
+  const [offerPizzas, setOfferPizzas] = useState<Pizza[]>([]);
 
   useEffect(() => {
     if (!userEmail || userEmail === '') {
@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
     }
 
     try {
-      const response2 = await axios.get('http://localhost:8080/api/seasonalOffers/all');
+      const response2 = await axios.get('http://localhost:8080/api/pizzas/offers');
       setOfferPizzas(response2.data);
     } catch (error) {
       console.error('Error fetching pizzas:', error);
@@ -112,7 +112,7 @@ const Dashboard: React.FC = () => {
       <h3 className='pt-4 px-4 text-2xl font-bold text-gray-800'>Seasonal Offers & Promotions</h3>
 
       <div className="w-full p-5 grid grid-cols-4 gap-4">
-        {offerPizzas.map((pizza: OfferPizza) => (
+        {offerPizzas.map((pizza: Pizza) => (
           <div key={pizza.pizzaId} className="border border-brown-800 rounded-lg shadow-lg p-5">
             <img src={pizza2} alt="Pizza" className="w-full h-40 object-contain rounded-md mb-4" />
             <h2 className="text-lg font-bold">{pizza.name}</h2>

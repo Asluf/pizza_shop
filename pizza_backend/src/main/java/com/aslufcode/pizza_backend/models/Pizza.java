@@ -5,11 +5,13 @@ public class Pizza {
     private String name;
     private String crust;
     private String sauce;
-    private String cheese; // New attribute
-    private String toppings; // Now a comma-separated string
+    private String cheese;
+    private String toppings;
     private double price;
+    private double discount;
+    private double netPrice;
 
-    public Pizza(int pizzaId, String name, String crust, String sauce, String cheese, String toppings, double price) {
+    public Pizza(int pizzaId, String name, String crust, String sauce, String cheese, String toppings, double price, double discount, double netPrice) {
         this.pizzaId = pizzaId;
         this.name = name;
         this.crust = crust;
@@ -17,6 +19,8 @@ public class Pizza {
         this.cheese = cheese;
         this.toppings = toppings;
         this.price = price;
+        this.discount = discount;
+        this.netPrice = netPrice;
     }
 
     public int getPizzaId() {
@@ -73,5 +77,21 @@ public class Pizza {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getNetPrice() {
+        return netPrice;
+    }
+
+    public void setNetPrice(double netPrice) {
+        this.netPrice = netPrice;
     }
 }

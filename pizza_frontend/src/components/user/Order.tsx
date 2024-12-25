@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 interface OrderItem {
-    pizzaId?: string;
+    orderId: string;
+    pizzaId: string;
     pizzaName: string;
     crust: string;
     sauce: string;
@@ -27,6 +28,9 @@ const Order: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [updates, setUpdates] = useState<string>('');
+    const [message, setMessage] = useState('');
+    const [showFeedback, setShowFeedback] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState<OrderItem | null>(null);
 
     useEffect(() => {
         if (!userEmail || userEmail === '') {
@@ -76,6 +80,39 @@ const Order: React.FC = () => {
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedOrder) return;
+
+        const feedback = {
+            userEmail,
+            pizzaId: selectedOrder.pizzaId,
+            pizzaName: selectedOrder.pizzaName,
+            orderId: selectedOrder.orderId,
+            message: message,
+        };
+
+        try {
+            await axios.post('http://localhost:8080/api/feedback/submit', feedback);
+            alert('Feedback submitted successfully!');
+            setMessage('');
+            setShowFeedback(false);
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            alert('Failed to submit feedback.');
+        }
+    };
+
+    const openFeedbackPopup = (order: OrderItem) => {
+        setSelectedOrder(order);
+        setShowFeedback(true);
+    };
+
+    const closeFeedbackPopup = () => {
+        setShowFeedback(false);
+        setMessage('');
+    };
+
     return (
         <div className="w-[100%] h-[100vh]">
             <Navbar />
@@ -106,11 +143,53 @@ const Order: React.FC = () => {
                                         ></div>
                                     </div>
                                 </div>
+
+                                {item.state.status === 'Delivered' && (
+                                    <div className='flex justify-end'>
+                                        <button
+                                            onClick={() => openFeedbackPopup(item)}
+                                            className="bg-brown-500 text-white px-4 py-2 mt-2 rounded"
+                                        >
+                                            Give Feedback
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
+
+            {showFeedback && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white rounded-lg p-5 w-[50vw]">
+                        <h2 className="text-2xl font-bold mb-4">Submit Feedback</h2>
+                        <form onSubmit={handleSubmit}>
+                            <textarea
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="Write your feedback here..."
+                                className="border p-2 w-full"
+                                rows={4}
+                            />
+                            <div className="flex justify-end gap-3 items-center mt-4">
+                                <button
+                                    onClick={closeFeedbackPopup}
+                                    className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+                                >
+                                    Close
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-brown-500 text-white px-4 py-2 rounded"
+                                >
+                                    Submit Feedback
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

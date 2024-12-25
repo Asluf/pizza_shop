@@ -2,6 +2,7 @@ package com.aslufcode.pizza_backend.models;
 
 public class Cart {
     private String userEmail;
+    private int pizzaId;
     private String pizzaName;
     private String crust;
     private String sauce;
@@ -11,8 +12,10 @@ public class Cart {
     private double totalPrice;
     private int quantity;
 
-    public Cart(String userEmail, String pizzaName, String crust, String sauce, String cheese, String toppings, double price, double totalPrice, int quantity) {
+    public Cart(String userEmail, int pizzaId, String pizzaName, String crust, String sauce, String cheese,
+            String toppings, double price, double totalPrice, int quantity) {
         this.userEmail = userEmail;
+        this.pizzaId = pizzaId;
         this.pizzaName = pizzaName;
         this.crust = crust;
         this.sauce = sauce;
@@ -29,6 +32,14 @@ public class Cart {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public int getPizzaId() {
+        return pizzaId;
+    }
+
+    public void setPizzaId(int pizzaId) {
+        this.pizzaId = pizzaId;
     }
 
     public String getPizzaName() {

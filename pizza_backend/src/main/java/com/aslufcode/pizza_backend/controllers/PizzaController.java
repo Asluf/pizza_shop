@@ -33,4 +33,9 @@ public class PizzaController {
         return PizzaDao.getAllPizzas();
     }
 
+    @GetMapping("/offers")
+    public List<Pizza> getAllOffers() {
+        return PizzaDao.getAllOffers();
+    }
+
 }

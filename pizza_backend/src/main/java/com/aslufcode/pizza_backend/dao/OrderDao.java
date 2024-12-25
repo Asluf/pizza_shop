@@ -22,22 +22,23 @@ public class OrderDao {
                 orderComponent = new SpecialPackagingDecorator(orderComponent);
             }
 
-            String query = "INSERT INTO Orders (userEmail, mobile, pizzaName, crust, sauce, cheese, toppings, price, quantity, orderStatus, paymentStatus, specialPackaging) "
+            String query = "INSERT INTO Orders (userEmail, mobile, pizzaId, pizzaName, crust, sauce, cheese, toppings, price, quantity, orderStatus, paymentStatus, specialPackaging) "
                     +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, order.getUserEmail());
             stmt.setString(2, order.getMobile());
-            stmt.setString(3, order.getPizzaName());
-            stmt.setString(4, order.getCrust());
-            stmt.setString(5, order.getSauce());
-            stmt.setString(6, order.getCheese());
-            stmt.setString(7, order.getToppings());
-            stmt.setDouble(8, orderComponent.calculatePrice());
-            stmt.setInt(9, order.getQuantity());
-            stmt.setString(10, order.getStatus());
-            stmt.setString(11, "Paid");
-            stmt.setBoolean(12, order.isSpecialPackaging());
+            stmt.setInt(3, order.getPizzaId());
+            stmt.setString(4, order.getPizzaName());
+            stmt.setString(5, order.getCrust());
+            stmt.setString(6, order.getSauce());
+            stmt.setString(7, order.getCheese());
+            stmt.setString(8, order.getToppings());
+            stmt.setDouble(9, orderComponent.calculatePrice());
+            stmt.setInt(10, order.getQuantity());
+            stmt.setString(11, order.getStatus());
+            stmt.setString(12, "Paid");
+            stmt.setBoolean(13, order.isSpecialPackaging());
 
             boolean orderSaved = stmt.executeUpdate() > 0;
 
@@ -67,6 +68,7 @@ public class OrderDao {
                 order.setOrderId(rs.getInt("orderId"));
                 order.setUserEmail(rs.getString("userEmail"));
                 order.setMobile(rs.getString("mobile"));
+                order.setPizzaId(rs.getInt("pizzaId"));
                 order.setPizzaName(rs.getString("pizzaName"));
                 order.setCrust(rs.getString("crust"));
                 order.setSauce(rs.getString("sauce"));

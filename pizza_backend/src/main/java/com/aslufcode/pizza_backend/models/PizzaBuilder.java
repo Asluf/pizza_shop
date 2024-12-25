@@ -112,6 +112,6 @@ public class PizzaBuilder {
 
     public Pizza build() {
         setNameAutomatically();
-        return new Pizza(0, name, crust, sauce, cheese, toppings.toString(), basePrice);
+        return new Pizza(0, name, crust, sauce, cheese, toppings.toString(), basePrice, 0.0, basePrice);
     }
 }

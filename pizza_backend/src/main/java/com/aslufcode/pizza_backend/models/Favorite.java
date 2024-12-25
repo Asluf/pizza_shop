@@ -2,6 +2,7 @@ package com.aslufcode.pizza_backend.models;
 
 public class Favorite {
     private String userEmail;
+    private int pizzaId;
     private String pizzaName;
     private String crust;
     private String sauce;
@@ -9,7 +10,9 @@ public class Favorite {
     private String toppings;
     private double price;
 
-    public Favorite(String userEmail, String pizzaName, String crust, String sauce, String cheese, String toppings, double price) {
+    public Favorite(String userEmail, int pizzaId, String pizzaName, String crust, String sauce, String cheese,
+            String toppings, double price) {
+        this.pizzaId = pizzaId;
         this.userEmail = userEmail;
         this.pizzaName = pizzaName;
         this.crust = crust;
@@ -25,6 +28,14 @@ public class Favorite {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public int getPizzaId() {
+        return pizzaId;
+    }
+
+    public void setPizzaId(int pizzaId) {
+        this.pizzaId = pizzaId;
     }
 
     public String getPizzaName() {

@@ -13,16 +13,17 @@ import org.springframework.stereotype.Repository;
 public class FavoriteDao {
     public boolean addFavorite(Favorite favorite) {
         try (Connection conn = DBConnection.getConnection()) {
-            String query = "INSERT INTO Favorite (userEmail, pizzaName, crust, sauce, cheese, toppings, price) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Favorite (userEmail, pizzaId, pizzaName, crust, sauce, cheese, toppings, price) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, favorite.getUserEmail());
-            stmt.setString(2, favorite.getPizzaName());
-            stmt.setString(3, favorite.getCrust());
-            stmt.setString(4, favorite.getSauce());
-            stmt.setString(5, favorite.getCheese());
-            stmt.setString(6, favorite.getToppings());
-            stmt.setDouble(7, favorite.getPrice());
+            stmt.setInt(2, favorite.getPizzaId());
+            stmt.setString(3, favorite.getPizzaName());
+            stmt.setString(4, favorite.getCrust());
+            stmt.setString(5, favorite.getSauce());
+            stmt.setString(6, favorite.getCheese());
+            stmt.setString(7, favorite.getToppings());
+            stmt.setDouble(8, favorite.getPrice());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,6 +41,7 @@ public class FavoriteDao {
             while (rs.next()) {
                 favorites.add(new Favorite(
                         rs.getString("userEmail"),
+                        rs.getInt("pizzaId"),
                         rs.getString("pizzaName"),
                         rs.getString("crust"),
                         rs.getString("sauce"),

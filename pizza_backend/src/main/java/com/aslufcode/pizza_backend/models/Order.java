@@ -4,6 +4,7 @@ public class Order {
     private int orderId;
     private String userEmail;
     private String mobile;
+    private int pizzaId;
     private String pizzaName;
     private String crust;
     private String sauce;
@@ -40,6 +41,14 @@ public class Order {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public int getPizzaId() {
+        return pizzaId;
+    }
+
+    public void setPizzaId(int pizzaId) {
+        this.pizzaId = pizzaId;
     }
 
     public String getPizzaName() {
@@ -124,7 +133,6 @@ public class Order {
                 throw new IllegalArgumentException("Unknown order status: " + status);
         }
     }
-    
 
     public void nextState() {
         state.next(this);
@@ -141,7 +149,7 @@ public class Order {
     public boolean isSpecialPackaging() {
         return specialPackaging;
     }
-    
+
     public void setSpecialPackaging(boolean specialPackaging) {
         this.specialPackaging = specialPackaging;
     }

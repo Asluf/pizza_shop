@@ -12,19 +12,20 @@ import java.util.List;
 public class CartDao {
     public boolean addToCart(Cart cart) {
         try (Connection conn = DBConnection.getConnection()) {
-            String query = "INSERT INTO Cart (userEmail, pizzaName, crust, sauce, cheese, toppings, price, totalPrice, quantity) "
+            String query = "INSERT INTO Cart (userEmail, pizzaId, pizzaName, crust, sauce, cheese, toppings, price, totalPrice, quantity) "
                     +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, cart.getUserEmail());
-            stmt.setString(2, cart.getPizzaName());
-            stmt.setString(3, cart.getCrust());
-            stmt.setString(4, cart.getSauce());
-            stmt.setString(5, cart.getCheese());
-            stmt.setString(6, cart.getToppings());
-            stmt.setDouble(7, cart.getPrice());
-            stmt.setDouble(8, cart.getTotalPrice());
-            stmt.setInt(9, cart.getQuantity());
+            stmt.setInt(2, cart.getPizzaId());
+            stmt.setString(3, cart.getPizzaName());
+            stmt.setString(4, cart.getCrust());
+            stmt.setString(5, cart.getSauce());
+            stmt.setString(6, cart.getCheese());
+            stmt.setString(7, cart.getToppings());
+            stmt.setDouble(8, cart.getPrice());
+            stmt.setDouble(9, cart.getTotalPrice());
+            stmt.setInt(10, cart.getQuantity());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,6 +43,7 @@ public class CartDao {
             while (rs.next()) {
                 cartItems.add(new Cart(
                         rs.getString("userEmail"),
+                        rs.getInt("pizzaId"),
                         rs.getString("pizzaName"),
                         rs.getString("crust"),
                         rs.getString("sauce"),
