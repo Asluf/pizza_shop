@@ -40,6 +40,7 @@ const Login: React.FC = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
+      showErrorToast('Login failed. Please check your credentials!')
       setError("Login failed. Please check your credentials.");
     }
   };
