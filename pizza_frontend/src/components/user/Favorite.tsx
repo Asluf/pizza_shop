@@ -90,6 +90,8 @@ const Favorite: React.FC = () => {
     return (
         <div className="w-[100%] h-[100vh]">
             <Navbar />
+
+            <h3 className='pt-4 px-4 text-2xl font-bold text-gray-800 flex justify-center'>Favorites</h3>
             <div className="w-[100%] flex justify-center items-center">
                 <div className="mt-5 w-[60vw] min-h-[30vh] rounded-xl px-10 py-5 shadow-xl flex flex-col gap-4">
                     {loading && <p className="text-blue-500">Loading favorite items...</p>}

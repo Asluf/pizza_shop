@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
         </div>
       </div> */}
 
-      <h3 className='pt-4 px-4 text-2xl font-bold text-gray-800'>Seasonal Offers & Promotions</h3>
+      <h3 className='pt-4 px-4 text-2xl font-bold text-gray-800 flex justify-center'>Seasonal Offers & Promotions</h3>
 
       <div className="w-full p-5 grid grid-cols-4 gap-4">
         {offerPizzas.map((pizza: Pizza) => (
@@ -145,7 +145,7 @@ const Dashboard: React.FC = () => {
           </div>
         ))}
       </div>
-      <h3 className='pt-4 px-4 text-2xl font-bold text-gray-800'>Featured</h3>
+      <h3 className='pt-4 px-4 text-2xl font-bold text-gray-800 flex justify-center'>Featured</h3>
 
       <div className="w-full p-5 grid grid-cols-4 gap-4">
         {pizzas.map((pizza: Pizza) => (
